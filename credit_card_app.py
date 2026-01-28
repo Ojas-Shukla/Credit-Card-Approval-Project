@@ -135,7 +135,7 @@ if submit:
 
   input_df = pd.DataFrame([model_input])
   x_processed = preprocessor.transform(input_df)
-  prob = model.predict_prob(x_processed)[0][1]
+  prob = model.predict_proba(x_processed)[0][1]
 
   threshold = 0.6
   decision = "Approved✅" if prob >= threshold else "Denied⛔"
