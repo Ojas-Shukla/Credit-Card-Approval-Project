@@ -136,14 +136,18 @@ if submit:
   input_df = pd.DataFrame([model_input])
   expected_raw_cols = []
 
-  for name, transformer, cols in preprocessor.transformers_:
-      if cols == "drop" or cols is None:
+  for _, _, cols in preprocessor.transformers_:
+      if cols is None:
           continue
-      if cols == "remainder":
-          continue
-      expected_raw_cols.extend(cols)
-
-  expected_raw_cols = list(set(expected_raw_cols))
+      if isinstance(cols, str):
+          if cols in ("drop", "remainder"):
+              continue
+          else:
+              expected_raw_cols.append(cols)
+      elif isinstance(cols, (list,tuple)):
+          expected_raw_cols.extend(cols)
+          
+  expected_raw_cols = list(dict.fromkeys(expected_raw_cols))
 
   for col in expected_raw_cols:
       if col not in input_df.columns:
