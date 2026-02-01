@@ -7,10 +7,6 @@ Original file is located at
     https://colab.research.google.com/drive/1LeBsMU4vQXtcd3T91H0jUWTYYVi5WXOH
 """
 
-!pip install streamlit
-!pip install joblib
-!pip install reportlab
-
 import streamlit as st
 import pandas as pd
 import numpy as np
