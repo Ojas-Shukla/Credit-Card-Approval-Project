@@ -137,7 +137,7 @@ if submit:
     }
 
   input_df = pd.DataFrame([model_input])
-  required_cols = pipeline.named_steps["preprocessor"].feature_names_in
+  required_cols = pipeline.feature_names_in
   for col in required_cols:
     if col not in input_df.columns:
       input_df[col] = 0
