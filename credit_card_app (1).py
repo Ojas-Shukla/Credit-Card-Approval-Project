@@ -17,8 +17,8 @@ from reportlab.lib.units import inch
 from reportlab.lib import colors
 import io
 
-model = joblib.load('best_model (1).pkl')
-preprocessor = joblib.load('preprocessor (1).pkl')
+model = joblib.load('best_model.pkl')
+preprocessor = joblib.load('preprocessor.pkl')
 st.set_page_config(
     page_title = "Credit Card Approval Detection",
     layout = "centered"
