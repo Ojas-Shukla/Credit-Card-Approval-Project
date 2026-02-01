@@ -138,27 +138,27 @@ if submit:
 
   input_df = pd.DataFrame([model_input])
 
-  # all_features = list(preprocessor.feature_names_in_)
+  all_features = list(preprocessor.feature_names_in_)
 
-  # expected_raw_cols = []
+  expected_raw_cols = []
 
-  # for _, _, cols in preprocessor.transformers_:
-  #   if cols is None:
-  #     continue
-  #   if isinstance(cols, str):
-  #     if cols in ("drop", "remainder"):
-  #       continue
-  #       expected_raw_cols.append(cols)
-  #   elif isinstance(cols, (list, tuple)):
-  #       expected_raw_cols.extend(cols)
-  #   elif isinstance(cols, slice):
-  #       expected_raw_cols.extend(all_features[cols])
-  # expected_raw_cols = list(dict.fromkeys(expected_raw_cols))
-  # for col in expected_raw_cols:
-  #   if col not in input_df.columns:
-  #     input_df[col] = 0
-  # input_df = input_df[expected_raw_cols]
-  # x_processed = preprocessor.transform(input_df)
+  for _, _, cols in preprocessor.transformers_:
+    if cols is None:
+      continue
+    if isinstance(cols, str):
+      if cols in ("drop", "remainder"):
+        continue
+        expected_raw_cols.append(cols)
+    elif isinstance(cols, (list, tuple)):
+        expected_raw_cols.extend(cols)
+    elif isinstance(cols, slice):
+        expected_raw_cols.extend(all_features[cols])
+  expected_raw_cols = list(dict.fromkeys(expected_raw_cols))
+  for col in expected_raw_cols:
+    if col not in input_df.columns:
+      input_df[col] = 0
+  input_df = input_df[expected_raw_cols]
+  x_processed = preprocessor.transform(input_df)
   prob = pipeline.predict_proba(input_df)[0][1]
 
   threshold = 0.6
