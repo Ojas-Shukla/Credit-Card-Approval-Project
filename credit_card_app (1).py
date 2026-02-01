@@ -134,6 +134,22 @@ if submit:
     }
 
   input_df = pd.DataFrame([model_input])
+  expected_raw_cols = []
+
+  for name, transformer, cols in preprocessor.transformers_:
+      if cols == "drop" or cols is None:
+          continue
+      if cols == "remainder":
+          continue
+      expected_raw_cols.extend(cols)
+
+  expected_raw_cols = list(set(expected_raw_cols))
+
+  for col in expected_raw_cols:
+      if col not in input_df.columns:
+          input_df[col] = 0
+          
+  input_df = input_df[expected_raw_cols]
   x_processed = preprocessor.transform(input_df)
   prob = model.predict_proba(x_processed)[0][1]
 
