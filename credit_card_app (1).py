@@ -134,6 +134,7 @@ if submit:
     }
 
   input_df = pd.DataFrame([model_input])
+  all_features = list(preprocessor.feature_names_in_)
   expected_raw_cols = []
 
   for _, _, cols in preprocessor.transformers_:
@@ -142,10 +143,11 @@ if submit:
       if isinstance(cols, str):
           if cols in ("drop", "remainder"):
               continue
-          else:
-              expected_raw_cols.append(cols)
+          expected_raw_cols.append(cols)
       elif isinstance(cols, (list,tuple)):
           expected_raw_cols.extend(cols)
+      elif isinstance(cols, slice):
+          expected_raw_cols.extend(all_features[cols])
           
   expected_raw_cols = list(dict.fromkeys(expected_raw_cols))
 
